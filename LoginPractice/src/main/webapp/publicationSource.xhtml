@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:head></h:head>
+	<body>
+		<h1>PublicationSource</h1>
+		
+		<h:form id="frmPublicationSource">
+			Name: <h:inputText value="#{publicationSourceController.publicationSource.name}" />
+			TypeKey: <h:inputText value="#{publicationSourceController.publicationSource.typeKey}" />						
+		<h:commandButton action="#{publicationSourceController.save}" value="Save" >
+		<f:ajax execute="frmPublicationSource" render="frmPublicationSource"/>
+		</h:commandButton>
+		
+		<h:commandButton rendered="#{publicationSourceController.editMode}" 
+			action="#{publicationSourceController.save}" value="Cancel" >
+			<f:ajax render="frmPublicationSource"></f:ajax>
+		</h:commandButton>
+		
+		<h:dataTable value="#{publicationSourceController.publicationSources}" var="ps"
+		id="dtPublicationSource">
+			<h:column>
+			<f:facet name="header">Id</f:facet>
+				#{ps.id}
+			</h:column>
+			<h:column>
+			<f:facet name="header">Name</f:facet>
+				#{ps.name}
+			</h:column>
+			<h:column>
+			<f:facet name="header">TypeKey</f:facet>
+				#{ps.typeKey}
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Actions</f:facet>
+				<h:commandButton action="#{publicationSourceController.delete(ps)}"
+				 value="Delete"
+				 onclick="return window.confirm
+					 ('Are you sure?')" >
+					<f:ajax render="frmPublicationSource:dtPublicationSource"/>
+				</h:commandButton>
+				<h:commandButton action="#{publicationSourceController.update(ps)}"
+				 value="Update" >
+				 	<f:ajax render="frmPublicationSource"/>
+				 </h:commandButton>
+			</h:column>
+		</h:dataTable>	
+		</h:form>
+	</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:head></h:head>
+	<body>
+		<h1>Company</h1>
+		
+		<h:form id="frmCompany">
+			Name: <h:inputText value="#{companyController.company.name}" />
+			Category: <h:inputText value="#{companyController.company.category}" />
+			Location:  <h:inputText value="#{companyController.company.location}" />							
+		<h:commandButton action="#{companyController.save}" value="Save" >
+		<f:ajax execute="frmCompany" render="frmCompany"/>
+		</h:commandButton>
+		
+		<h:commandButton rendered="#{companyController.editMode}" 
+			action="#{companyController.save}" value="Cancel" >
+			<f:ajax render="frmCompany"></f:ajax>
+		</h:commandButton>
+		
+		<h:dataTable value="#{companyController.companies}" var="co"
+		id="dtCompany">
+			<h:column>
+			<f:facet name="header">Id</f:facet>
+				#{co.id}
+			</h:column>
+			<h:column>
+			<f:facet name="header">Name</f:facet>
+				#{co.name}
+			</h:column>
+			<h:column>
+			<f:facet name="header">Category</f:facet>
+				#{co.category}
+			</h:column>
+			<h:column>
+			<f:facet name="header">Location</f:facet>
+				#{co.location}
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Actions</f:facet>
+				<h:commandButton action="#{companyController.delete(co)}"
+				 value="Delete"
+				 onclick="return window.confirm
+					 ('Are you sure?')" >
+					<f:ajax render="frmCompany:dtCompany"/>
+				</h:commandButton>
+				<h:commandButton action="#{companyController.update(co)}"
+				 value="Update" >
+				 	<f:ajax render="frmCompany"/>
+				 </h:commandButton>
+			</h:column>
+		</h:dataTable>			
+		</h:form>
+	</body>
+</html>

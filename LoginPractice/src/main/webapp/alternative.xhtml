@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:head></h:head>
+	<body>
+		<h1>Alternative</h1>
+		
+		<h:form id="frmAlternative">
+			Text: <h:inputText value="#{alternativeController.alternative.text}" />
+			Correct:  <h:inputText value="#{alternativeController.alternative.correct}" />	
+			QuestionDef:  <h:inputText value="#{alternativeController.alternative.questionDef}" />	
+			Answer:  <h:inputText value="#{alternativeController.alternative.answer}" />							
+		<h:commandButton action="#{alternativeController.save}" value="Save" >
+		<f:ajax execute="frmAlternative" render="frmAlternative"/>
+		</h:commandButton>
+		
+		<h:commandButton rendered="#{alternativeController.editMode}" 
+			action="#{alternativeController.save}" value="Cancel" >
+			<f:ajax render="frmAlternative"></f:ajax>
+		</h:commandButton>
+		
+		<h:dataTable value="#{alternativeController.alternatives}" var="a"
+		id="dtAlternative">
+			<h:column>
+			<f:facet name="header">Id</f:facet>
+				#{a.id}
+			</h:column>
+			<h:column>
+			<f:facet name="header">Name</f:facet>
+				#{a.text}
+			</h:column>
+			<h:column>
+			<f:facet name="header">Correct </f:facet>
+				#{a.correct}
+			</h:column>
+			<h:column>
+			<f:facet name="header">QuestionDef</f:facet>
+				#{a.questionDef}
+			</h:column>
+			<h:column>
+			<f:facet name="header">Answer</f:facet>
+				#{a.answer}
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Actions</f:facet>
+				<h:commandButton action="#{alternativeController.delete(a)}"
+				 value="Delete"
+				 onclick="return window.confirm
+					 ('Are you sure?')" >
+					<f:ajax render="frmAlternative:dtAlternative"/>
+				</h:commandButton>
+				<h:commandButton action="#{alternativeController.update(a)}"
+				 value="Update" >
+				 	<f:ajax render="frmAlternative"/>
+				 </h:commandButton>
+			</h:column>
+		</h:dataTable>			
+		</h:form>
+	</body>
+</html>
